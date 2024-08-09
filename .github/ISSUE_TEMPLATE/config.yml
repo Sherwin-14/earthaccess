@@ -1,1 +1,8 @@
 blank_issues_enabled: true
+contact_links:
+  - name: 🌟 Community Support
+    url: https://github.com/nsidc/earthaccess/discussions/categories/q-a
+    about: For community-driven support and discussion, please visit our Q&A page 
+  - name: 💡 Suggest a new feature
+    url: https://github.com/nsidc/earthaccess/discussions/new?category=ideas
+    about: To suggest a new feature, please visit our Ideas discussion board and share your idea with us!
