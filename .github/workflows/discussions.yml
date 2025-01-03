@@ -1,0 +1,10 @@
+name: Generate Discussion Thread for Hackdays
+
+jobs:
+  create-discussion-threads:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run : ls
