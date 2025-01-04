@@ -24,8 +24,3 @@ jobs:
             Use the "reply" feature to have a discussion under any given comment.
           repository-id: ${{ secrets.REPO_ID }}
           category-id: ${{ secrets.CAT_ID }}
-
-      - name: Print discussion url and id
-        run: |
-          echo discussion-id: ${{ github.event.issue.number }}
-          echo discussion-url: ${{ github.event.issue.html_url }}
