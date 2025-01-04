@@ -5,6 +5,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Create a new GitHub Discussion
+        id: create-discussion
+        uses: abirismyname/create-discussion@v1.x
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          title: Feelings
+          body: |
+            Let's talk!
+          repository-id: ${{ secrets.REPO_ID }}
+          category-id: ${{ secrets.CAT_ID }}
 
-      - run : ls
+      - name: Print discussion url and id
+        run: |
+          echo discussion-id: ${{steps.create-discussion.outputs.discussion-id}}
+          echo discussion-url: ${{steps.create-discussion.outputs.discussion-url}}
