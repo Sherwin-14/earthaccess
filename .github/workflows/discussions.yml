@@ -11,12 +11,10 @@ jobs:
       - name: Create a new GitHub Discussion
         id: create-discussion
         uses: abirismyname/create-discussion@v1.x
-
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
-          
         with:
-          title: Feelings
+          title: Hackathon 
           body: |
             Reporting out on earthaccess hack days.
             Please create a new comment (at the very bottom, use the text box with a button that says "comment", not "reply") to write about what you did today!
@@ -27,5 +25,8 @@ jobs:
 
       - name: Print discussion url and id
         run: |
-          echo discussion-id: ${{ github.event.issue.number }}
-          echo discussion-url: ${{ github.event.issue.html_url }}
+          if [ -n "${{steps.create-discussion.outputs.discussion-id}}" ]; then
+            echo discussion-id: ${{steps.create-discussion.outputs.discussion-id}}
+            echo discussion-url: ${{steps.create-discussion.outputs.discussion-url}}
+          else
+            echo "Discussion not created"            
