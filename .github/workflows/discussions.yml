@@ -1,14 +1,18 @@
 name: Generate Discussion Thread for Hackdays
 
+on:
+  workflow_dispatch:
+
 jobs:
   create-discussion-threads:
     runs-on: ubuntu-latest
 
     steps:
       - name: Create a new GitHub Discussion
+        id: create-discussion
         uses: abirismyname/create-discussion@v1.x
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
         with:
           title: Feelings
           body: |
