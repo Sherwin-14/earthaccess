@@ -6,14 +6,16 @@ jobs:
 
     steps:
       - name: Create a new GitHub Discussion
-        id: create-discussion
         uses: abirismyname/create-discussion@v1.x
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           title: Feelings
           body: |
-            Let's talk!
+            Reporting out on earthaccess hack days.
+            Please create a new comment (at the very bottom, use the text box with a button that says "comment", not "reply") to write about what you did today!
+            Please include links to GitHub issues or pull requests relevant to your work, and use those issues or pull requests as the "source of truth" for documenting the work; this makes future readers jobs easier :) It's OK to duplicate some information while writing a summary here!
+            Use the "reply" feature to have a discussion under any given comment.
           repository-id: ${{ secrets.REPO_ID }}
           category-id: ${{ secrets.CAT_ID }}
 
