@@ -25,5 +25,5 @@ jobs:
 
       - name: Print discussion url and id
         run: |
-          echo discussion-id: ${{steps.create-discussion.outputs.discussion-id}}
-          echo discussion-url: ${{steps.create-discussion.outputs.discussion-url}}
+          echo discussion-id: ${{ github.event.issue.number }}
+          echo discussion-url: ${{ github.event.issue.html_url }}
