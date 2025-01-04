@@ -1,0 +1,26 @@
+name: Generate Discussion Thread for Hackdays
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-discussion-threads:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create a new GitHub Discussion
+        uses: abirismyname/create-discussion@v1.x
+        with:
+          title: Feelings
+          body: |
+            Reporting out on earthaccess hack days.
+            Please create a new comment (at the very bottom, use the text box with a button that says "comment", not "reply") to write about what you did today!
+            Please include links to GitHub issues or pull requests relevant to your work, and use those issues or pull requests as the "source of truth" for documenting the work; this makes future readers jobs easier :) It's OK to duplicate some information while writing a summary here!
+            Use the "reply" feature to have a discussion under any given comment.
+          repository-id: ${{ secrets.REPO_ID }}
+          category-id: ${{ secrets.CAT_ID }}
+
+      - name: Print discussion url and id
+        run: |
+          echo discussion-id: ${{steps.create-discussion.outputs.discussion-id}}
+          echo discussion-url: ${{steps.create-discussion.outputs.discussion-url}}
