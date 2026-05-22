@@ -93,7 +93,7 @@ class TestEula(unittest.TestCase):
             store.get([mocked_url], "/tmp")
 
     def tearDown(self):
-        self.auth = None  # type: ignore[assignment]
+        self.auth = None
 
     @responses.activate
     def test_store_can_create_https_fsspec_session(self):
@@ -133,7 +133,7 @@ class TestStoreSessions(unittest.TestCase):
         self.assertEqual(self.auth.token, json_response)
 
     def tearDown(self):
-        self.auth = None  # type: ignore[assignment]
+        self.auth = None
 
     @responses.activate
     def test_store_can_create_https_fsspec_session(self):
@@ -178,7 +178,7 @@ class TestStoreSessions(unittest.TestCase):
             if "s3-credentials" in daac:
                 responses.add(
                     responses.GET,
-                    daac["s3-credentials"],  # str, not a list
+                    daac["s3-credentials"],
                     json=mock_creds,
                     status=200,
                 )
