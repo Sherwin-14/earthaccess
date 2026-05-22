@@ -1,6 +1,19 @@
 # DAACS ~= NASA Earthdata data centers
 
+from typing import TypedDict
+
 import requests
+
+
+class DAACConfig(TypedDict):
+    short_name: str
+    name: str
+    homepage: str
+    cloud_providers: list[str]
+    on_prem_providers: list[str]
+    s3_credentials: str
+    eulas: list[str]
+
 
 DAACS = [
     {

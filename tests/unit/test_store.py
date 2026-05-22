@@ -178,7 +178,7 @@ class TestStoreSessions(unittest.TestCase):
             if "s3-credentials" in daac:
                 responses.add(
                     responses.GET,
-                    daac["s3-credentials"],  # type: ignore[arg-type]
+                    daac["s3-credentials"],  # str, not a list
                     json=mock_creds,
                     status=200,
                 )
@@ -191,7 +191,7 @@ class TestStoreSessions(unittest.TestCase):
 
         store = Store(self.auth)
         self.assertTrue(isinstance(store.auth, Auth))
-        for daac in [  # type: ignore[assignment]
+        for daac in [
             "NSIDC",
             "PODAAC",
             "LPDAAC",
@@ -201,7 +201,7 @@ class TestStoreSessions(unittest.TestCase):
             "OBDAAC",
             "ASDC",
         ]:
-            s3_fs = store.get_s3_filesystem(daac=daac)  # type: ignore[arg-type]
+            s3_fs = store.get_s3_filesystem(daac=daac)
             assert isinstance(s3_fs, s3fs.S3FileSystem)
             assert s3_fs.storage_options == expected_storage_options
 
@@ -301,7 +301,7 @@ class TestStoreSessions(unittest.TestCase):
                         side_effect=mock_download_file,
                     ):
                         # Test multi-threaded download
-                        pqdm(urls, store._download_file, n_jobs=n_threads)  # type: ignore[arg-type]
+                        pqdm(urls, store._download_file, n_jobs=n_threads)
 
                 # We make sure we reuse the token up to N threads
                 self.assertTrue(len(cloned_sessions) <= n_threads)
@@ -313,7 +313,7 @@ class TestStoreSessions(unittest.TestCase):
 def test_earthaccess_file_getattr():
     fs = fsspec.filesystem("memory")
     with fs.open("foo", "wb") as f:
-        earthaccess_file = EarthAccessFile(f, granule="foo")  # type: ignore[arg-type]
+        earthaccess_file = EarthAccessFile(f, granule="foo")
         assert f.tell == earthaccess_file.tell
     fs.store.clear()
 
