@@ -416,7 +416,7 @@ class DataGranule(CustomDict):
                     if "ArchiveAndDistributionInformation" in data_granule
                 ],
             )
-        except Exception:
+        except Exception:  # noqa: BLE001
             try:
                 data_granule = self["umm"]["DataGranule"]
                 total_size = sum(
@@ -426,7 +426,7 @@ class DataGranule(CustomDict):
                         if "ArchiveAndDistributionInformation" in data_granule
                     ],
                 ) / (1024 * 1024)
-            except Exception:
+            except Exception:  # noqa: BLE001
                 total_size = 0
         return total_size
 
