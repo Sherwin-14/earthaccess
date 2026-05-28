@@ -15,7 +15,7 @@ class DAACConfig(TypedDict):
     eulas: list[str]
 
 
-DAACS = [
+DAACS: list[DAACConfig] = [
     {
         "short-name": "NSIDC",
         "name": "National Snow and Ice Data Center",
