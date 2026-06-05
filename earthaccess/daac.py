@@ -132,7 +132,7 @@ DAAC_TEST_URLS = [
 
 def find_provider(
     daac_short_name: str | None = None,
-    cloud_hosted: bool | None = None,
+    cloud_hosted: bool | None = None,  # noqa: FBT001
 ) -> str | None:
     for daac in DAACS:
         if daac_short_name == daac["short-name"]:
@@ -146,7 +146,7 @@ def find_provider(
     return None
 
 
-def find_provider_by_shortname(short_name: str, cloud_hosted: bool) -> str | None:
+def find_provider_by_shortname(short_name: str, cloud_hosted: bool) -> str | None:  # noqa: FBT001
     base_url = "https://cmr.earthdata.nasa.gov/search/collections.umm_json?"
     providers = requests.get(
         f"{base_url}&cloud_hosted={cloud_hosted}&short_name={short_name}",
