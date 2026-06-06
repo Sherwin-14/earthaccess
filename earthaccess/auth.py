@@ -67,7 +67,7 @@ class BasicAuthResponseHook:
 
         # Consume content and release the original connection to allow our new
         # request to reuse the same one.
-        r.content
+        r.content  # noqa:B018
         r.close()
 
         prepared_request = r.request.copy()
