@@ -4,15 +4,18 @@ from typing import TypedDict
 
 import requests
 
-
-class DAACConfig(TypedDict):
-    short_name: str
-    name: str
-    homepage: str
-    cloud_providers: list[str]
-    on_prem_providers: list[str]
-    s3_credentials: str
-    eulas: list[str]
+DAACConfig = TypedDict(
+    "DAACConfig",
+    {
+        "short-name": str,
+        "name": str,
+        "homepage": str,
+        "cloud-providers": list[str],
+        "on-prem-providers": list[str],
+        "s3-credentials": str,
+        "eulas": list[str],
+    },
+)
 
 
 DAACS: list[DAACConfig] = [
