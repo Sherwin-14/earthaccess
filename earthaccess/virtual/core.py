@@ -51,7 +51,7 @@ def virtualize(  # noqa: PLR0913
     parser: ParserType = "DMRPPParser",
     reference_dir: str | None = None,
     reference_format: ReferenceFormatType = "json",
-    **xr_combine_kwargs: Any,
+    **xr_combine_kwargs: Any,  # noqa: ANN401
 ) -> xr.Dataset:
     """Create a virtual xarray Dataset from NASA Earthdata granules.
 
@@ -210,8 +210,8 @@ def virtualize(  # noqa: PLR0913
 
 def _open_virtual_mfdataset(  # noqa: PLR0913
     granules: list[earthaccess.DataGranule],
-    parser: Any,
-    registry: Any,
+    parser: Any,  # noqa: ANN401
+    registry: Any,  # noqa: ANN401
     access: AccessType,
     concat_dim: str | None,
     preprocess: Callable | None,
@@ -220,7 +220,7 @@ def _open_virtual_mfdataset(  # noqa: PLR0913
     coords: str,
     compat: CompatType,
     combine_attrs: CombineAttrsType,
-    **xr_combine_kwargs: Any,
+    **xr_combine_kwargs: Any,  # noqa: ANN401
 ) -> xr.Dataset:
     """Thin wrapper around ``vz.open_virtual_mfdataset`` for testability."""
     try:

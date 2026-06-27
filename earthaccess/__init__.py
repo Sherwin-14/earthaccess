@@ -76,7 +76,7 @@ _store: Store | None = None
 _lock = threading.Lock()
 
 
-def __getattr__(name):  # type: ignore
+def __getattr__(name: str):  # noqa: ANN202 # type: ignore
     """Module-level getattr to handle automatic authentication when accessing
     `earthaccess.__auth__` and `earthaccess.__store__`.
 

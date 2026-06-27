@@ -85,7 +85,7 @@ class EarthAccessFile:
         self.f = f
         self.granule = granule
 
-    def __getattribute__(self, name: str) -> Any:
+    def __getattribute__(self, name: str) -> Any:  # noqa: ANN401
         # use super().__getattribute__ to avoid infinite recursion
         if (name in EarthAccessFile.__dict__) or (name in self.__dict__):
             # accessing our attributes
@@ -94,7 +94,7 @@ class EarthAccessFile:
         proxy = super().__getattribute__("f")
         return getattr(proxy, name)
 
-    def __reduce_ex__(self, protocol: Any) -> Any:
+    def __reduce_ex__(self, protocol: Any) -> Any:  # noqa: ANN401
         return make_instance, (
             self.__class__,
             self.granule,
@@ -163,10 +163,10 @@ def _open_files(
 
 
 def make_instance(
-    cls: Any,
+    cls: Any,  # noqa: ANN401
     granule: DataGranule,
     auth: Auth,
-    data: Any,
+    data: Any,  # noqa: ANN401
 ) -> EarthAccessFile:
     # Attempt to re-authenticate
     if not earthaccess.__auth__.authenticated:
@@ -236,7 +236,7 @@ def _sibling_tempfile(sibling: Path) -> Generator[Path, None, None]:
 class Store:
     """Store class to access granules on-prem or in the cloud."""
 
-    def __init__(self, auth: Any, pre_authorize: bool = False) -> None:  # noqa: FBT001, FBT002
+    def __init__(self, auth: Any, pre_authorize: bool = False) -> None:  # noqa: FBT001, FBT002, ANN401
         """Store is the class to access data.
 
         Parameters:

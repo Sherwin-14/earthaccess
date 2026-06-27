@@ -18,7 +18,7 @@ def _repr_collection_html() -> str:
     return "<div></div>"
 
 
-def _repr_granule_html(granule: Any) -> str:
+def _repr_granule_html(granule: Any) -> str:  # noqa: ANN401
     css_styles = _load_static_files()
     css_inline = f"""<div id="{uuid4()}" style="height: 0px; display: none">
             {"".join([f"<style>{style}</style>" for style in css_styles])}
