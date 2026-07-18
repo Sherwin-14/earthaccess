@@ -749,7 +749,7 @@ class DataGranules(GranuleQuery):
             key in self.params for key in collection_keys
         )
 
-    def _is_cloud_hosted(self, granule: Any) -> bool:  # noqa: ANN401
+    def _is_cloud_hosted(self, granule: DataGranule) -> bool:
         """Check if a granule record, from CMR, advertises "direct access"."""
         if "RelatedUrls" not in granule["umm"]:
             return False

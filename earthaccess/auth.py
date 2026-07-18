@@ -113,7 +113,7 @@ class Auth:
         strategy: str = "netrc",
         persist: bool = False,  # noqa: FBT001, FBT002
         system: System | None = None,
-    ) -> Any:  # noqa: ANN401
+    ) -> Auth:
         """Authenticate with Earthdata login.
 
         Parameters:

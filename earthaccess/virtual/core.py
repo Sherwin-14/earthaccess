@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     import xarray as xr
+    from virtualizarr.registry import ObjectStoreRegistry
 
     from earthaccess.virtual._types import (
         AccessType,
@@ -211,7 +212,7 @@ def virtualize(  # noqa: PLR0913
 def _open_virtual_mfdataset(  # noqa: PLR0913
     granules: list[earthaccess.DataGranule],
     parser: Any,  # noqa: ANN401
-    registry: Any,  # noqa: ANN401
+    registry: ObjectStoreRegistry,
     access: AccessType,
     concat_dim: str | None,
     preprocess: Callable | None,
