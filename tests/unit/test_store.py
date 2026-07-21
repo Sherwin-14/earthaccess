@@ -63,9 +63,9 @@ class TestEula(unittest.TestCase):
             status=401,
         )
         store = Store(self.auth)
-        with self.assertRaisesRegex(
+        with pytest.raises(
             EulaNotAccepted,
-            f"Eula Acceptance Failure for {mocked_url}",
+            match = f"Eula Acceptance Failure for {mocked_url}",
         ):
             store.get([mocked_url], "/tmp")
 
@@ -86,9 +86,9 @@ class TestEula(unittest.TestCase):
             status=401,
         )
         store = Store(self.auth)
-        with self.assertRaisesRegex(
+        with pytest.raises(
             DownloadFailure,
-            f"Download failed for {mocked_url}. Status code: 401",
+            match=f"Download failed for {mocked_url}. Status code: 401",
         ):
             store.get([mocked_url], "/tmp")
 
