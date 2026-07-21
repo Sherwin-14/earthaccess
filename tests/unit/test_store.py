@@ -330,7 +330,7 @@ def test_earthaccess_file_getattr():
 
 
 @pytest.mark.parametrize(
-    "file_size, open_kwargs, expected_cache_type, expected_block_size",
+    ("file_size", "open_kwargs", "expected_cache_type", "expected_block_size"),
     [
         # Case 1: Small file, defaults used
         (50 * 1024 * 1024, {}, "background", 4 * 1024 * 1024),
