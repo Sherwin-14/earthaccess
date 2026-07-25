@@ -129,8 +129,8 @@ class TestStoreSessions(unittest.TestCase):
         )
         self.auth = Auth()
         self.auth.login(strategy="environment")
-        self.assertEqual(self.auth.authenticated, True)
-        self.assertEqual(self.auth.token, json_response)
+        assert self.auth.authenticated is True
+        assert self.auth.token == json_response
 
     def tearDown(self):
         self.auth = None
@@ -144,9 +144,9 @@ class TestStoreSessions(unittest.TestCase):
             status=200,
         )
         store = Store(self.auth)
-        self.assertTrue(isinstance(store.auth, Auth))
+        assert isinstance(store.auth, Auth)
         https_fs = store.get_fsspec_session()
-        self.assertEqual(type(https_fs), type(fsspec.filesystem("https")))
+        assert type(https_fs) is type(fsspec.filesystem("https"))
 
     @responses.activate
     def test_store_can_create_s3_fsspec_session(self):
@@ -190,7 +190,7 @@ class TestStoreSessions(unittest.TestCase):
         )
 
         store = Store(self.auth)
-        self.assertTrue(isinstance(store.auth, Auth))
+        assert isinstance(store.auth, Auth)
         for daac in [
             "NSIDC",
             "PODAAC",
@@ -315,10 +315,9 @@ class TestStoreSessions(unittest.TestCase):
                         pqdm(urls, store._download_file, n_jobs=n_threads)
 
                 # We make sure we reuse the token up to N threads
-                self.assertTrue(len(cloned_sessions) <= n_threads)
-
-                self.assertEqual(len(downloaded_files), n_files)  # 10 files downloaded
-                self.assertCountEqual(downloaded_files, urls)  # All files accounted for
+                assert len(cloned_sessions) <= n_threads
+                assert len(downloaded_files) == n_files   # 10 files downloaded
+                assert sorted(downloaded_files) == sorted(urls)  # All files accounted for
 
 
 def test_earthaccess_file_getattr():
