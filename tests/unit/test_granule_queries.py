@@ -39,17 +39,17 @@ bbox_queries = [
 ]
 
 
-@pytest.mark.parametrize(("start","end", "expected"), valid_single_dates)
+@pytest.mark.parametrize(("start", "end", "expected"), valid_single_dates)
 def test_query_can_parse_single_dates(start, end, expected):
     granules = DataGranules().short_name("MODIS").temporal(start, end)
     assert granules.params["temporal"][0] == expected
 
 
-@pytest.mark.parametrize(("start","end", "expected"), invalid_single_dates)
+@pytest.mark.parametrize(("start", "end", "expected"), invalid_single_dates)
 def test_query_can_handle_invalid_dates(start, end, expected):  # noqa: ARG001
     granules = DataGranules().short_name("MODIS")
     assert "temporal" not in granules.params
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # noqa: PT011
         granules.temporal(start, end)
 
 

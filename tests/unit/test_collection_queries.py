@@ -78,5 +78,5 @@ def test_query_can_parse_single_dates(start, end, expected):
 def test_query_can_handle_invalid_dates(start, end, expected):  # noqa: ARG001
     query = DataCollections()
     assert "temporal" not in query.params
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # noqa: PT011
         query.temporal(start, end)

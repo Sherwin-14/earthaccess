@@ -65,7 +65,7 @@ class TestEula(unittest.TestCase):
         store = Store(self.auth)
         with pytest.raises(
             EulaNotAccepted,
-            match = f"Eula Acceptance Failure for {mocked_url}",
+            match=f"Eula Acceptance Failure for {mocked_url}",
         ):
             store.get([mocked_url], "/tmp")
 
@@ -316,12 +316,16 @@ class TestStoreSessions(unittest.TestCase):
 
                 # We make sure we reuse the token up to N threads
                 assert len(cloned_sessions) <= n_threads
-                assert len(downloaded_files) == n_files   # 10 files downloaded
-                assert sorted(downloaded_files) == sorted(urls)  # All files accounted for
+                assert len(downloaded_files) == n_files  # 10 files downloaded
+                assert sorted(downloaded_files) == sorted(
+                    urls
+                )  # All files accounted for
+
 
 def _write_then_raise(temp_file, new_text, msg):
     temp_file.write_text(new_text)
     raise RuntimeError(msg)
+
 
 def test_earthaccess_file_getattr():
     fs = fsspec.filesystem("memory")
@@ -408,7 +412,7 @@ def test_sibling_tempfile_error(tmp_path):
         pytest.raises(Exception, match="Some error to trigger cleanup"),
         _sibling_tempfile(trg_file) as temp_file,
     ):
-        _write_then_raise(temp_file, new_text, msg = "Some error to trigger cleanup")
+        _write_then_raise(temp_file, new_text, msg="Some error to trigger cleanup")
     assert not temp_file.exists()
     assert trg_file.exists()
     assert trg_file.read_text() == orig_text

@@ -33,7 +33,9 @@ class TestServices(VCRTestCase):
         actual = earthaccess.search_services(concept_id="S2004184019-POCLOUD")
 
         assert actual[0]["umm"]["Type"] == "OPeNDAP"
-        assert actual[0]["umm"]["ServiceOrganizations"][0]["ShortName"] == "UCAR/UNIDATA"
+        assert (
+            actual[0]["umm"]["ServiceOrganizations"][0]["ShortName"] == "UCAR/UNIDATA"
+        )
         assert actual[0]["umm"]["Description"] == "Earthdata OPEnDAP in the cloud"
         assert actual[0]["umm"]["LongName"] == "PO.DAAC OPeNDADP In the Cloud"
 
