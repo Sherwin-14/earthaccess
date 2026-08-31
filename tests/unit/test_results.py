@@ -6,7 +6,8 @@ import os.path
 import earthaccess
 import responses
 from earthaccess.results import DataCollection, DataGranule
-from earthaccess.search import DataCollections
+from earthaccess.search import DataCollections, DataGranules
+from earthaccess.utils._search import get_results
 from vcr.unittest import VCRTestCase  # type: ignore[import-untyped]
 
 logging.basicConfig()
@@ -190,6 +191,63 @@ class TestResults(VCRTestCase):
         )
         assert unique_results(granules)
 
+    @responses.activate
+    def test_get_paginates_past_short_first_page(self):
+        """A page shorter than the requested page_size must not end pagination.
+
+        Regression test: for some searches CMR returns fewer than `page_size`
+        items on a page even though more results remain (e.g. the granule search
+        for C3974616058-LPCLOUD over 2024 returns 1985 items on the first page
+        of 2000). The old code stopped paginating after such a short page,
+        silently dropping the rest of the results.
+        """
+        url = "https://cmr.earthdata.nasa.gov/search/granules.umm_json"
+
+        # First page is short (fewer than the requested page_size), but CMR
+        # still signals more results via the CMR-Search-After header.
+        responses.add(
+            responses.GET,
+            url,
+            json={
+                "hits": 12070,
+                "items": [
+                    {"meta": {"concept-id": f"G{i}-LPCLOUD"}, "umm": {}}
+                    for i in range(1985)
+                ],
+            },
+            headers={"CMR-Search-After": '["lpcloud",1718999394000,4165185217]'},
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            url,
+            json={
+                "hits": 12070,
+                "items": [
+                    {"meta": {"concept-id": f"G{i}-LPCLOUD"}, "umm": {}}
+                    for i in range(1985, 3985)
+                ],
+            },
+            headers={"CMR-Search-After": '["lpcloud",1722041241000,4166963562]'},
+            status=200,
+        )
+        # Final request: empty page, no CMR-Search-After header.
+        responses.add(
+            responses.GET,
+            url,
+            json={"hits": 12070, "items": []},
+            status=200,
+        )
+
+        query = DataGranules()
+        query.concept_id("C3974616058-LPCLOUD")
+        query.temporal("2024-01-01", "2024-12-31")
+
+        results = get_results(query.session, query, limit=12070)
+
+        self.assertEqual(len(results), 3985)
+        self.assertEqual(len(responses.calls), 3)
+
     def test_collections_less_than_2k(self):
         """If we execute a get_all then we expect multiple
         invocations of a cmr granule search and
@@ -234,19 +292,19 @@ def test_get_doi_returns_doi_when_present():
         {"umm": {"DOI": {"DOI": "doi:10.16904/envidat.lwf.34"}}, "meta": {}},
     )
 
-    assert collection.doi() == "doi:10.16904/envidat.lwf.34"
+    assert collection.doi == "doi:10.16904/envidat.lwf.34"
 
 
 def test_get_doi_returns_empty_string_when_doi_missing():
     collection = DataCollection({"umm": {"DOI": {}}, "meta": {}})
 
-    assert collection.doi() is None
+    assert collection.doi is None
 
 
 def test_get_doi_returns_empty_string_when_doi_key_missing():
     collection = DataCollection({"umm": {}, "meta": {}})
 
-    assert collection.doi() is None
+    assert collection.doi is None
 
 
 @responses.activate

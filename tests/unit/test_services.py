@@ -49,7 +49,7 @@ class TestServices(VCRTestCase):
         earthaccess._auth.authenticated = False
 
         assert len(datasets) > 0
-        results = datasets[0].services()
+        results = datasets[0].services
 
         assert results["S2004184019-POCLOUD"][0]["meta"]["provider-id"] == "POCLOUD"
         assert (

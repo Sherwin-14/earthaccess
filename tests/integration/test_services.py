@@ -33,7 +33,7 @@ class TestServices(VCRTestCase):
         )
 
         dataset_services = {
-            dataset["umm"]["ShortName"]: dataset.services() for dataset in datasets
+            dataset["umm"]["ShortName"]: dataset.services for dataset in datasets
         }
 
         assert next(iter(dataset_services.keys())) == "MUR-JPL-L4-GLOB-v4.1"
