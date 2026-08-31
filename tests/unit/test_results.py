@@ -245,8 +245,8 @@ class TestResults(VCRTestCase):
 
         results = get_results(query.session, query, limit=12070)
 
-        self.assertEqual(len(results), 3985)
-        self.assertEqual(len(responses.calls), 3)
+        assert len(results) == 3985
+        assert len(responses.calls) == 3
 
     def test_collections_less_than_2k(self):
         """If we execute a get_all then we expect multiple
