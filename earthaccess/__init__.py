@@ -1,6 +1,5 @@
 import logging
 import threading
-from typing import Optional
 
 from .api import (
     auth_environ,
@@ -76,15 +75,14 @@ _store: Store | None = None
 _lock = threading.Lock()
 
 
-def __getattr__(name):  # type: ignore
+def __getattr__(name):  # type: ignore[no-untyped-def]
     """Module-level getattr to handle automatic authentication when accessing
     `earthaccess.__auth__` and `earthaccess.__store__`.
 
     Other unhandled attributes raise as `AttributeError` as expected.
     """
-    global _auth, _store
-
     if name not in ["__auth__", "__store__"]:
-        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+        msg = f"module {__name__!r} has no attribute {name!r}"
+        raise AttributeError(msg)
 
     return _auth if name == "__auth__" else _store

@@ -3,7 +3,7 @@ from vcr.unittest import VCRTestCase  # type: ignore[import-untyped]
 
 
 class TestServices(VCRTestCase):
-    def scrub_access_token(self, string, replacement=""):
+    def scrub_access_token(self, string, replacement=""):  # noqa: ARG002
         def before_record_response(response):
             body_string = str(response["body"]["string"])
             if "access_token" in body_string:
@@ -33,7 +33,7 @@ class TestServices(VCRTestCase):
         )
 
         dataset_services = {
-            dataset["umm"]["ShortName"]: dataset.services() for dataset in datasets
+            dataset["umm"]["ShortName"]: dataset.services for dataset in datasets
         }
 
         self.assertEqual(next(iter(dataset_services.keys())), "MUR-JPL-L4-GLOB-v4.1")
