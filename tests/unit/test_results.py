@@ -167,7 +167,7 @@ class TestResults(VCRTestCase):
         )
 
         # Assert that we performed a hits query and one search results query
-        assert len(self.cassette) == 2
+        assert len(self.cassette) == 3
         assert len(granules) == 163
         assert unique_results(granules)
 
@@ -182,7 +182,7 @@ class TestResults(VCRTestCase):
         )
 
         # Assert that we performed a hits query and two search results queries
-        assert len(self.cassette) == 3
+        assert len(self.cassette) == 4
         assert len(granules) == int(
             self.cassette.responses[0]["headers"]["CMR-Hits"][0]
         )
