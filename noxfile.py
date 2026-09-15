@@ -37,7 +37,7 @@ def tests(session: nox.Session) -> None:
     )
 
 
-@nox.session(name="test-min-deps", python="3.11", venv_backend="uv")
+@nox.session(name="test-min-deps", python="3.12", venv_backend="uv")
 def test_min_deps(session: nox.Session) -> None:
     """Run the unit tests using the lowest compatible version of all direct dependencies."""
     session.install(
@@ -65,10 +65,10 @@ def integration_tests(session: nox.Session) -> None:
         "tests/integration",
         "-rxXs",  # Show provided reason in summary for (x)fail, (X)pass, and (s)kipped tests
         *session.posargs,
-        env=dict(
-            EARTHDATA_USERNAME=os.environ["EARTHDATA_USERNAME"],
-            EARTHDATA_PASSWORD=os.environ["EARTHDATA_PASSWORD"],
-        ),
+        env={
+            "EARTHDATA_USERNAME": os.environ["EARTHDATA_USERNAME"],
+            "EARTHDATA_PASSWORD": os.environ["EARTHDATA_PASSWORD"],
+        },
     )
 
 

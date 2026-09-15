@@ -6,7 +6,7 @@ from vcr.unittest import VCRTestCase  # type: ignore[import-untyped]
 
 
 class TestServices(VCRTestCase):
-    def scrub_access_token(self, string, replacement=""):
+    def scrub_access_token(self, string, replacement=""):  # noqa: ARG002
         def before_record_response(response):
             body_string = str(response["body"]["string"])
             if "access_token" in body_string:
@@ -34,10 +34,10 @@ class TestServices(VCRTestCase):
 
         self.assertTrue(actual[0]["umm"]["Type"] == "OPeNDAP")
         self.assertTrue(
-            actual[0]["umm"]["ServiceOrganizations"][0]["ShortName"] == "UCAR/UNIDATA"
+            actual[0]["umm"]["ServiceOrganizations"][0]["ShortName"] == "UCAR/UNIDATA",
         )
         self.assertTrue(
-            actual[0]["umm"]["Description"] == "Earthdata OPEnDAP in the cloud"
+            actual[0]["umm"]["Description"] == "Earthdata OPEnDAP in the cloud",
         )
         self.assertTrue(actual[0]["umm"]["LongName"] == "PO.DAAC OPeNDADP In the Cloud")
 
@@ -51,18 +51,18 @@ class TestServices(VCRTestCase):
         earthaccess._auth.authenticated = False
 
         assert len(datasets) > 0
-        results = datasets[0].services()
+        results = datasets[0].services
 
         self.assertTrue(
-            results["S2004184019-POCLOUD"][0]["meta"]["provider-id"] == "POCLOUD"
+            results["S2004184019-POCLOUD"][0]["meta"]["provider-id"] == "POCLOUD",
         )
         self.assertTrue(
             results["S2004184019-POCLOUD"][0]["umm"]["URL"]["URLValue"]
-            == "https://opendap.earthdata.nasa.gov/"
+            == "https://opendap.earthdata.nasa.gov/",
         )
         self.assertTrue(
             results["S2606110201-XYZ_PROV"][0]["umm"]["Name"]
-            == "Harmony GDAL Adapter (HGA)"
+            == "Harmony GDAL Adapter (HGA)",
         )
         self.assertTrue(results["S2164732315-XYZ_PROV"][0]["umm"]["Type"] == "Harmony")
 

@@ -1,14 +1,15 @@
+from typing import Any
+
 import requests
-from typing_extensions import Any, List, Union
 
 from cmr import CollectionQuery, GranuleQuery, ServiceQuery
 
 
 def get_results(
     session: requests.Session,
-    query: Union[CollectionQuery, GranuleQuery, ServiceQuery],
+    query: CollectionQuery | GranuleQuery | ServiceQuery,
     limit: int = 2000,
-) -> List[Any]:
+) -> list[Any]:
     """Get all results up to some limit, even if spanning multiple pages.
 
     ???+ Tip
@@ -26,9 +27,9 @@ def get_results(
         RuntimeError: The CMR query failed.
     """
     page_size = min(limit, 2000)
-    url = query._build_url()
+    url = query._build_url()  # noqa: SLF001
 
-    results: List[Any] = []
+    results: list[Any] = []
     more_results = True
     headers = dict(query.headers or {})
 
@@ -47,6 +48,6 @@ def get_results(
 
         results.extend(latest)
 
-        more_results = page_size <= len(latest) and len(results) < limit
+        more_results = len(latest) > 0 and len(results) < limit
 
     return results

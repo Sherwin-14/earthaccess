@@ -1,21 +1,15 @@
 import datetime as dt
 import logging
+from collections.abc import Iterable, Sequence
 from inspect import getmembers, ismethod
-
-import requests
-from typing_extensions import (
+from typing import (
     Any,
-    Iterable,
-    List,
-    Optional,
     Self,
-    Sequence,
     SupportsFloat,
-    Tuple,
-    TypeAlias,
-    Union,
     override,
 )
+
+import requests
 
 from cmr import CollectionQuery, GranuleQuery
 
@@ -26,12 +20,12 @@ from .utils._search import get_results
 
 logger = logging.getLogger(__name__)
 
-FloatLike: TypeAlias = Union[str, SupportsFloat]
-PointLike: TypeAlias = Tuple[FloatLike, FloatLike]
+type FloatLike = str | SupportsFloat
+type PointLike = tuple[FloatLike, FloatLike]
 
 
 class DataCollections(CollectionQuery):
-    """Placeholder.
+    """Query CMR for collection metadata.
 
     ???+ Info
         The DataCollection class queries against
@@ -39,10 +33,10 @@ class DataCollections(CollectionQuery):
         the response has to be in umm_json to use the result classes.
     """
 
-    _fields: Optional[List[str]] = None
+    _fields: list[str] | None = None
     _format = "umm_json"
 
-    def __init__(self, auth: Optional[Auth] = None, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, auth: Auth | None = None, *args: Any, **kwargs: Any) -> None:
         """Builds an instance of DataCollections to query the CMR.
 
         Parameters:
@@ -87,7 +81,7 @@ class DataCollections(CollectionQuery):
         return int(response.headers["CMR-Hits"])
 
     @override
-    def get(self, limit: int = 2000) -> List[DataCollection]:
+    def get(self, limit: int = 2000) -> list[DataCollection]:
         """Get all the collections (datasets) that match with our current parameters
         up to some limit, even if spanning multiple pages.
 
@@ -169,7 +163,8 @@ class DataCollections(CollectionQuery):
             TypeError: `doi` is not of type `str`.
         """
         if not isinstance(doi, str):
-            raise TypeError("doi must be of type str")
+            msg = "doi must be of type str"
+            raise TypeError(msg)
 
         self.params["doi"] = doi
         return self
@@ -191,7 +186,8 @@ class DataCollections(CollectionQuery):
             TypeError: `instrument` is not of type `str`.
         """
         if not isinstance(instrument, str):
-            raise TypeError("instrument must be of type str")
+            msg = "instrument must be of type str"
+            raise TypeError(msg)
 
         self.params["instrument"] = instrument
         return self
@@ -214,7 +210,8 @@ class DataCollections(CollectionQuery):
             TypeError: `project` is not of type `str`.
         """
         if not isinstance(project, str):
-            raise TypeError("project must be of type str")
+            msg = "project must be of type str"
+            raise TypeError(msg)
 
         self.params["project"] = project
         return self
@@ -246,7 +243,8 @@ class DataCollections(CollectionQuery):
         for key, val in kwargs.items():
             # verify the key matches one of our methods
             if key not in methods:
-                raise ValueError("Unknown key {}".format(key))
+                msg = f"Unknown key {key}"
+                raise ValueError(msg)
 
             # call the method
             if isinstance(val, tuple):
@@ -260,11 +258,11 @@ class DataCollections(CollectionQuery):
         """Prints the help information for a given method."""
         print("Class components: \n")  # noqa: T201
         print(  # noqa: T201
-            [method for method in dir(self) if method.startswith("_") is False]
+            [method for method in dir(self) if method.startswith("_") is False],
         )
         help(getattr(self, method))
 
-    def fields(self, fields: Optional[List[str]] = None) -> Self:
+    def fields(self, fields: list[str] | None = None) -> Self:
         """Masks the response by only showing the fields included in this list.
 
         Parameters:
@@ -277,7 +275,7 @@ class DataCollections(CollectionQuery):
         self._fields = fields
         return self
 
-    def debug(self, debug: bool = True) -> Self:
+    def debug(self, debug: bool = True) -> Self:  # noqa: FBT001, FBT002
         """If True, prints the actual query to CMR. Note that the pagination happens in
         the headers.
 
@@ -290,7 +288,7 @@ class DataCollections(CollectionQuery):
         self._debug = debug
         return self
 
-    def has_granules(self, has_granules: bool | None = True) -> Self:
+    def has_granules(self, has_granules: bool | None = True) -> Self:  # noqa: FBT001, FBT002
         """Match only collections with granules, without granules, or either.
 
         Parameters:
@@ -303,7 +301,8 @@ class DataCollections(CollectionQuery):
             self
         """
         if has_granules is not None and not isinstance(has_granules, bool):
-            raise TypeError("has_granules must be of type bool or None")
+            msg = "has_granules must be of type bool or None"
+            raise TypeError(msg)
 
         if has_granules is not None:
             self.params["has_granules"] = has_granules
@@ -312,7 +311,7 @@ class DataCollections(CollectionQuery):
 
         return self
 
-    def cloud_hosted(self, cloud_hosted: bool = True) -> Self:
+    def cloud_hosted(self, cloud_hosted: bool = True) -> Self:  # noqa: FBT001, FBT002
         """Only match granules that are hosted in the cloud. This is valid for public
         collections.
 
@@ -330,7 +329,8 @@ class DataCollections(CollectionQuery):
             TypeError: `cloud_hosted` is not of type `bool`.
         """
         if not isinstance(cloud_hosted, bool):
-            raise TypeError("cloud_hosted must be of type bool")
+            msg = "cloud_hosted must be of type bool"
+            raise TypeError(msg)
 
         self.params["cloud_hosted"] = cloud_hosted
         if hasattr(self, "DAAC"):
@@ -387,8 +387,8 @@ class DataCollections(CollectionQuery):
     @override
     def temporal(
         self,
-        date_from: Optional[Union[str, dt.date, dt.datetime]] = None,
-        date_to: Optional[Union[str, dt.date, dt.datetime]] = None,
+        date_from: str | dt.date | dt.datetime | None = None,
+        date_to: str | dt.date | dt.datetime | None = None,
         exclude_boundary: bool = False,
     ) -> Self:
         """Filter by an open or closed date range. Dates can be provided as date objects
@@ -426,7 +426,7 @@ class DataGranules(GranuleQuery):
 
     _format = "umm_json"
 
-    def __init__(self, auth: Optional[Auth] = None, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, auth: Auth | None = None, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.session = (
@@ -462,13 +462,12 @@ class DataGranules(GranuleQuery):
         except requests.exceptions.HTTPError as ex:
             if ex.response is not None:
                 raise RuntimeError(ex.response.text) from ex
-            else:
-                raise RuntimeError(str(ex)) from ex
+            raise RuntimeError(str(ex)) from ex
 
         return int(response.headers["CMR-Hits"])
 
     @override
-    def get(self, limit: int = 2000) -> List[DataGranule]:
+    def get(self, limit: int = 2000) -> list[DataGranule]:
         """Get all the collections (datasets) that match with our current parameters
         up to some limit, even if spanning multiple pages.
 
@@ -515,14 +514,13 @@ class DataGranules(GranuleQuery):
             TypeError: The value of a keyword argument is not an argument or tuple
                 of arguments matching the number and type(s) of the method's parameters.
         """
-        methods = {}
-        for name, func in getmembers(self, predicate=ismethod):
-            methods[name] = func
+        methods = dict(getmembers(self, predicate=ismethod))
 
         for key, val in kwargs.items():
             # verify the key matches one of our methods
             if key not in methods:
-                raise ValueError("Unknown key {}".format(key))
+                msg = f"Unknown key {key}"
+                raise ValueError(msg)
 
             # call the method
             if isinstance(val, tuple):
@@ -583,7 +581,7 @@ class DataGranules(GranuleQuery):
     def orbit_number(
         self,
         orbit1: FloatLike,
-        orbit2: Optional[FloatLike] = None,
+        orbit2: FloatLike | None = None,
     ) -> Self:
         """Filter by the orbit number the granule was acquired during. Either a single
         orbit can be targeted or a range of orbits.
@@ -597,7 +595,7 @@ class DataGranules(GranuleQuery):
         """
         return super().orbit_number(orbit1, orbit2)
 
-    def cloud_hosted(self, cloud_hosted: bool = True) -> Self:
+    def cloud_hosted(self, cloud_hosted: bool = True) -> Self:  # noqa: FBT001, FBT002
         """Only match granules that are hosted in the cloud.
         This is valid for public collections and when using the short_name parameter.
         Concept-Id is unambiguous.
@@ -616,11 +614,13 @@ class DataGranules(GranuleQuery):
             TypeError: `cloud_hosted` is not of type `bool`.
         """
         if not isinstance(cloud_hosted, bool):
-            raise TypeError("cloud_hosted must be of type bool")
+            msg = "cloud_hosted must be of type bool"
+            raise TypeError(msg)
 
         if "short_name" in self.params:
             provider = find_provider_by_shortname(
-                self.params["short_name"], cloud_hosted
+                self.params["short_name"],
+                cloud_hosted,
             )
             if provider is not None:
                 self.params["provider"] = provider
@@ -644,9 +644,8 @@ class DataGranules(GranuleQuery):
             TypeError: if `granule_name` is not of type `str` or `Iterable[str]`.
         """
         if not isinstance(granule_name, Iterable):
-            raise TypeError(
-                "granule_name must be of type string or Iterable of strings"
-            )
+            msg = "granule_name must be of type string or Iterable of strings"
+            raise TypeError(msg)
         if not isinstance(granule_name, str):
             # Convert iterable to list of strings. Since str is also Iterable, make
             # sure we don't do this when granule_name is a string, otherwise
@@ -724,8 +723,8 @@ class DataGranules(GranuleQuery):
     @override
     def cloud_cover(
         self,
-        min_cover: Optional[FloatLike] = 0,
-        max_cover: Optional[FloatLike] = 100,
+        min_cover: FloatLike | None = 0,
+        max_cover: FloatLike | None = 100,
     ) -> Self:
         """Filter by the percentage of cloud cover present in the granule.
 
@@ -746,13 +745,9 @@ class DataGranules(GranuleQuery):
         # spatial params must be paired with a collection limiting parameter
         spatial_keys = ["point", "polygon", "bounding_box", "line"]
         collection_keys = ["short_name", "entry_title", "concept_id"]
-
-        if any(key in self.params for key in spatial_keys):
-            if not any(key in self.params for key in collection_keys):
-                return False
-
-        # all good then
-        return True
+        return not any(key in self.params for key in spatial_keys) or any(
+            key in self.params for key in collection_keys
+        )
 
     def _is_cloud_hosted(self, granule: Any) -> bool:
         """Check if a granule record, from CMR, advertises "direct access"."""
@@ -777,7 +772,7 @@ class DataGranules(GranuleQuery):
         """
         return super().short_name(short_name)
 
-    def debug(self, debug: bool = True) -> Self:
+    def debug(self, debug: bool = True) -> Self:  # noqa: FBT001, FBT002
         """If True, prints the actual query to CMR, notice that the pagination happens
         in the headers.
 
@@ -793,8 +788,8 @@ class DataGranules(GranuleQuery):
     @override
     def temporal(
         self,
-        date_from: Optional[Union[str, dt.date, dt.datetime]] = None,
-        date_to: Optional[Union[str, dt.date, dt.datetime]] = None,
+        date_from: str | dt.date | dt.datetime | None = None,
+        date_to: str | dt.date | dt.datetime | None = None,
         exclude_boundary: bool = False,
     ) -> Self:
         """Filter by an open or closed date range. Dates can be provided as date objects
@@ -893,7 +888,10 @@ class DataGranules(GranuleQuery):
             ValueError: A coordinate could not be converted to a float.
         """
         return super().bounding_box(
-            lower_left_lon, lower_left_lat, upper_right_lon, upper_right_lat
+            lower_left_lon,
+            lower_left_lat,
+            upper_right_lon,
+            upper_right_lat,
         )
 
     @override
@@ -952,13 +950,14 @@ class DataGranules(GranuleQuery):
         # TODO consider raising an exception when there are multiple collections, since
         # we can't know which one the user wants, and choosing one is arbitrary.
         if len(collection) > 0:
-            concept_id = collection[0].concept_id()
+            concept_id = collection[0].concept_id
             self.params["concept_id"] = concept_id
         else:
             # TODO consider removing this print statement since we don't print such
             # a message in other cases where no results are found.  Seems arbitrary.
             logger.info(
-                f"earthaccess couldn't find any associated collections with the DOI: {doi}"
+                "earthaccess couldn't find any associated collections with the DOI: %s",
+                doi,
             )
 
         return self

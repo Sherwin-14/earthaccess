@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: "pip" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "monthly"
+      interval: "quarterly"
     groups:
       pip-dependencies:
         patterns:
@@ -18,7 +18,20 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "quarterly"
+    groups:
+      gha-dependencies:
+        patterns:
+          - "*"
+    cooldown:
+      default-days: 14
+  # Dependabot's github-actions ecosystem does not recurse into composite
+  # actions under .github/actions/, so each custom action needs its own entry
+  # for the `uses:` references inside action.yml to receive updates.
+  - package-ecosystem: "github-actions"
+    directory: "/.github/actions/install-pkg"
+    schedule:
+      interval: "quarterly"
     groups:
       gha-dependencies:
         patterns:

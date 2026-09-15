@@ -3,6 +3,7 @@ import unittest
 
 import earthaccess
 import pytest
+from virtualizarr.manifests.array import ManifestArray
 
 logger = logging.getLogger(__name__)
 assertions = unittest.TestCase("__init__")
@@ -10,7 +11,9 @@ assertions = unittest.TestCase("__init__")
 
 auth = earthaccess.login()
 logger.info(
-    f"earthaccess version: {earthaccess.__version__}, authenticated: {auth.authenticated}"
+    "earthaccess version: %s, authenticated: %s",
+    earthaccess.__version__,
+    auth.authenticated,
 )
 
 
@@ -25,27 +28,32 @@ logger.info(
 )
 def granules(request):
     short_name, count = request.param
-    granules = earthaccess.search_data(
-        count=count, temporal=("2025"), short_name=short_name
+    return earthaccess.search_data(
+        count=count,
+        temporal=("2025"),
+        short_name=short_name,
     )
-    return granules
 
 
 def test_virtualize_materialize_indexable(granules):
     # Simply check that the dmrpp can be found, parsed, and loaded. Actual parser result is checked in virtualizarr
     vds = earthaccess.virtualize(
-        granules, concat_dim="time", load=True, access="indirect"
+        granules,
+        concat_dim="time",
+        load=True,
+        access="indirect",
     )
     # We can use fancy indexing
     assert vds.isel(time=0) is not None
 
 
 def test_virtualize_non_materialize(granules):
-    from virtualizarr.manifests.array import ManifestArray
-
     # Simply check that the dmrpp can be found, parsed, and loaded. Actual parser result is checked in virtualizarr
     vds = earthaccess.virtualize(
-        granules, concat_dim="time", load=False, access="indirect"
+        granules,
+        concat_dim="time",
+        load=False,
+        access="indirect",
     )
     # we are not materializing the data
     for name in vds.data_vars:

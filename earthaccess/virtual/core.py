@@ -10,28 +10,32 @@ import logging
 import tempfile
 import warnings
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any
 
 import earthaccess
 from earthaccess.virtual._credentials import build_obstore_registry
 from earthaccess.virtual._parser import get_urls_for_parser, resolve_parser
-from earthaccess.virtual._types import (
-    AccessType,
-    CombineAttrsType,
-    CompatType,
-    DataVarsType,
-    ParallelType,
-    ParserType,
-    ReferenceFormatType,
-)
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     import xarray as xr
+
+    from earthaccess.virtual._types import (
+        AccessType,
+        CombineAttrsType,
+        CompatType,
+        DataVarsType,
+        ParallelType,
+        ParserType,
+        ReferenceFormatType,
+    )
+
 
 logger = logging.getLogger(__name__)
 
 
-def virtualize(
+def virtualize(  # noqa: PLR0913
     granules: list[earthaccess.DataGranule],
     *,
     access: AccessType = "direct",
@@ -124,12 +128,14 @@ def virtualize(
         ```
     """
     if len(granules) == 0:
-        raise ValueError("No granules provided. At least one granule is required.")
+        msg = "No granules provided. At least one granule is required."
+        raise ValueError(msg)
     if len(granules) > 1 and concat_dim is None:
-        raise ValueError(
+        msg = (
             "concat_dim is required when virtualizing more than one granule. "
             "Pass concat_dim='<dimension_name>' to specify how to concatenate."
         )
+        raise ValueError(msg)
 
     # Validate / resolve parser early so callers get a clear error before any
     # network activity.
@@ -165,7 +171,8 @@ def virtualize(
             stacklevel=2,
         )
         resolved_parser = resolve_parser(
-            "HDFParser", group=group if group != "/" else None
+            "HDFParser",
+            group=group if group != "/" else None,
         )
         registry = build_obstore_registry(granules, access=access)
         vds = _open_virtual_mfdataset(
@@ -201,7 +208,7 @@ def virtualize(
 # ---------------------------------------------------------------------------
 
 
-def _open_virtual_mfdataset(
+def _open_virtual_mfdataset(  # noqa: PLR0913
     granules: list[earthaccess.DataGranule],
     parser: Any,
     registry: Any,
@@ -217,11 +224,12 @@ def _open_virtual_mfdataset(
 ) -> xr.Dataset:
     """Thin wrapper around ``vz.open_virtual_mfdataset`` for testability."""
     try:
-        import virtualizarr as vz
+        import virtualizarr as vz  # noqa: PLC0415
     except ImportError as exc:
-        raise ImportError(
+        msg = (
             "earthaccess.virtualize() requires `pip install earthaccess[virtualizarr]`"
-        ) from exc
+        )
+        raise ImportError(msg) from exc
 
     urls = get_urls_for_parser(granules, parser, access=access)
 
@@ -247,7 +255,7 @@ def _open_virtual_mfdataset(
         )
 
 
-def _load_via_kerchunk(
+def _load_via_kerchunk(  # noqa: PLR0913
     vds: xr.Dataset,
     granules: list[earthaccess.DataGranule],
     group: str,
@@ -260,7 +268,7 @@ def _load_via_kerchunk(
     Needed until https://github.com/zarr-developers/VirtualiZarr/issues/360
     is resolved. TODO: make sure this holds, I think this may have been resolved already.
     """
-    import xarray as xr
+    import xarray as xr  # noqa: PLC0415
 
     fs = earthaccess.get_fsspec_https_session()
 

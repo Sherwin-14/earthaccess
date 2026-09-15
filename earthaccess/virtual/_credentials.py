@@ -2,24 +2,27 @@
 
 Provides two public helpers:
 
-- ``get_granule_credentials_endpoint_and_region`` – resolve the NASA S3
+- ``get_granule_credentials_endpoint_and_region`` - resolve the NASA S3
   credentials endpoint for a granule, falling back to a CMR collection query.
-- ``build_obstore_registry`` – build an ``ObjectStoreRegistry`` suitable for
+- ``build_obstore_registry`` - build an ``ObjectStoreRegistry`` suitable for
   passing to ``vz.open_virtual_mfdataset``.
 """
 
 from __future__ import annotations
 
 import logging
-from collections.abc import Sequence
 from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 import earthaccess
-from earthaccess.virtual._types import AccessType
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from virtualizarr.registry import ObjectStoreRegistry
+
+    from earthaccess.virtual._types import AccessType
+
 
 logger = logging.getLogger(__name__)
 
@@ -52,15 +55,16 @@ def get_granule_credentials_endpoint_and_region(
             count=1,
             concept_id=granule["meta"]["collection-concept-id"],
         )
-        collection_s3_bucket = collection_results[0].s3_bucket()
+        collection_s3_bucket = collection_results[0].s3_bucket
         credentials_endpoint = collection_s3_bucket.get("S3CredentialsAPIEndpoint")
         region = collection_s3_bucket.get("Region", "us-west-2")
 
     if credentials_endpoint is None:
-        raise ValueError(
+        msg = (
             "The collection did not provide an S3CredentialsAPIEndpoint. "
             "Direct S3 access is not available for this granule."
         )
+        raise ValueError(msg)
 
     return credentials_endpoint, region
 
@@ -77,12 +81,12 @@ def validate_granules(
         ValueError: If any granule does not have data links.
     """
     if not granules or len(granules) == 0:
-        raise ValueError("No valid granules provided.")
+        msg = "No valid granules provided."
+        raise ValueError(msg)
     for granule in granules:
         if not granule.data_links():
-            raise ValueError(
-                f"Granule {granule['meta']['concept-id']} has no data links."
-            )
+            msg = f"Granule {granule['meta']['concept-id']} has no data links."
+            raise ValueError(msg)
 
 
 def build_obstore_registry(
@@ -107,13 +111,16 @@ def build_obstore_registry(
         ImportError: If ``earthaccess[virtualizarr]`` is not installed.
     """
     try:
-        from obstore.auth.earthdata import NasaEarthdataCredentialProvider
-        from obstore.store import HTTPStore, S3Store
-        from virtualizarr.registry import ObjectStoreRegistry
+        from obstore.auth.earthdata import (  # noqa: PLC0415
+            NasaEarthdataCredentialProvider,
+        )
+        from obstore.store import HTTPStore, S3Store  # noqa: PLC0415
+        from virtualizarr.registry import ObjectStoreRegistry  # noqa: PLC0415
     except ImportError:
-        raise ImportError(
+        msg = (
             "earthaccess.virtualize() requires `pip install earthaccess[virtualizarr]`"
-        ) from None
+        )
+        raise ImportError(msg) from None
 
     validate_granules(granules)
 
@@ -121,22 +128,24 @@ def build_obstore_registry(
     auth = earthaccess.__auth__
     edl_token = getattr(auth, "token", None)
     if not edl_token or "access_token" not in edl_token:
-        raise ValueError(
+        msg = (
             "You must be logged in to use indirect access. "
             "Call earthaccess.login() first."
         )
+        raise ValueError(msg)
     token: str = edl_token["access_token"]
 
     if access == "direct":
         credentials_endpoint, region = get_granule_credentials_endpoint_and_region(
-            granules[0]
+            granules[0],
         )
         bucket = parsed_url.netloc
         s3_store = S3Store(
             bucket=bucket,
             region=region,
             credential_provider=NasaEarthdataCredentialProvider(
-                credentials_endpoint, auth=token
+                credentials_endpoint,
+                auth=token,
             ),
             virtual_hosted_style_request=False,
             client_options={"allow_http": True},

@@ -11,6 +11,7 @@ import responses
 import s3fs
 from earthaccess import Auth, Store
 from earthaccess.auth import SessionWithHeaderRedirection
+from earthaccess.daac import DAACS
 from earthaccess.exceptions import DownloadFailure, EulaNotAccepted
 from earthaccess.store import EarthAccessFile, _open_files, _sibling_tempfile
 from pqdm.threads import pqdm
@@ -63,7 +64,8 @@ class TestEula(unittest.TestCase):
         )
         store = Store(self.auth)
         with self.assertRaisesRegex(
-            EulaNotAccepted, f"Eula Acceptance Failure for {mocked_url}"
+            EulaNotAccepted,
+            f"Eula Acceptance Failure for {mocked_url}",
         ):
             store.get([mocked_url], "/tmp")
 
@@ -85,7 +87,8 @@ class TestEula(unittest.TestCase):
         )
         store = Store(self.auth)
         with self.assertRaisesRegex(
-            DownloadFailure, f"Download failed for {mocked_url}. Status code: 401"
+            DownloadFailure,
+            f"Download failed for {mocked_url}. Status code: 401",
         ):
             store.get([mocked_url], "/tmp")
 
@@ -104,7 +107,6 @@ class TestEula(unittest.TestCase):
         assert isinstance(store.auth, Auth)
         https_fs = store.get_fsspec_session()
         assert type(https_fs) is type(fsspec.filesystem("https"))
-        return None
 
 
 class TestStoreSessions(unittest.TestCase):
@@ -145,12 +147,9 @@ class TestStoreSessions(unittest.TestCase):
         self.assertTrue(isinstance(store.auth, Auth))
         https_fs = store.get_fsspec_session()
         self.assertEqual(type(https_fs), type(fsspec.filesystem("https")))
-        return None
 
     @responses.activate
     def test_store_can_create_s3_fsspec_session(self):
-        from earthaccess.daac import DAACS
-
         custom_endpoints = [
             "https://archive.swot.podaac.earthdata.nasa.gov/s3credentials",
             "https://api.giovanni.earthdata.nasa.gov/s3credentials",
@@ -229,8 +228,6 @@ class TestStoreSessions(unittest.TestCase):
         with pytest.raises(ValueError, match="parameters must be specified"):
             store.get_s3_filesystem()
 
-        return None
-
     @responses.activate
     def test_session_reuses_token_download(self):
         mock_creds = {
@@ -248,7 +245,10 @@ class TestStoreSessions(unittest.TestCase):
                 urls = [f"https://example.com/file{i}" for i in range(1, n_files + 1)]
                 for i, url in enumerate(urls):
                     responses.add(
-                        responses.GET, url, body=f"Content of file {i + 1}", status=200
+                        responses.GET,
+                        url,
+                        body=f"Content of file {i + 1}",
+                        status=200,
                     )
 
                 edl_hostname = "urs.earthdata.nasa.gov"
@@ -272,7 +272,12 @@ class TestStoreSessions(unittest.TestCase):
                 # Track cloned sessions
                 cloned_sessions = set()
 
-                def mock_clone_session_in_local_thread(original_session):
+                def mock_clone_session_in_local_thread(
+                    original_session,
+                    store=store,
+                    edl_hostname=edl_hostname,
+                    cloned_sessions=cloned_sessions,
+                ):
                     """Mock session cloning to track cloned sessions."""
                     if not hasattr(store.thread_locals, "local_thread_session"):
                         session = SessionWithHeaderRedirection(edl_hostname)
@@ -288,7 +293,13 @@ class TestStoreSessions(unittest.TestCase):
                     mock_directory = Path("/mock/directory")
                     downloaded_files = []
 
-                    def mock_download_file(url):
+                    def mock_download_file(
+                        url,
+                        store=store,
+                        original_session=original_session,
+                        downloaded_files=downloaded_files,
+                        mock_directory=mock_directory,
+                    ):
                         """Mock file download to track downloaded files."""
                         # Ensure session cloning happens before downloading
                         store._clone_session_in_local_thread(original_session)
@@ -296,10 +307,12 @@ class TestStoreSessions(unittest.TestCase):
                         return mock_directory / f"{url.split('/')[-1]}"
 
                     with patch.object(
-                        store, "_download_file", side_effect=mock_download_file
+                        store,
+                        "_download_file",
+                        side_effect=mock_download_file,
                     ):
                         # Test multi-threaded download
-                        pqdm(urls, store._download_file, n_jobs=n_threads)  # type: ignore
+                        pqdm(urls, store._download_file, n_jobs=n_threads)
 
                 # We make sure we reuse the token up to N threads
                 self.assertTrue(len(cloned_sessions) <= n_threads)
@@ -342,7 +355,10 @@ def test_earthaccess_file_getattr():
     ],
 )
 def test_open_files_parametrized(
-    file_size, open_kwargs, expected_cache_type, expected_block_size
+    file_size,
+    open_kwargs,
+    expected_cache_type,
+    expected_block_size,
 ):
     fs = MagicMock()
     fs.info.return_value = {"size": file_size}
@@ -386,10 +402,13 @@ def test_sibling_tempfile_error(tmp_path):
     orig_text = "Should get replaced"
     new_text = "New-fangled text"
     trg_file.write_text(orig_text)
-    with pytest.raises(Exception, match="Some error to trigger cleanup"):
-        with _sibling_tempfile(trg_file) as temp_file:
-            temp_file.write_text(new_text)
-            raise Exception("Some error to trigger cleanup")
+    with (
+        pytest.raises(Exception, match="Some error to trigger cleanup"),
+        _sibling_tempfile(trg_file) as temp_file,
+    ):
+        temp_file.write_text(new_text)
+        msg = "Some error to trigger cleanup"
+        raise RuntimeError(msg)
     assert not temp_file.exists()
     assert trg_file.exists()
     assert trg_file.read_text() == orig_text
