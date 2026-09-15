@@ -1,6 +1,6 @@
 # Issue Triaging and Prioritization Guide
 
-This document outlines our approach to triaging issues in GitHub, including guidelines for labeling and resolving issues, and best practices for maintaining a well-organized, prioritized, and up-to-date issue tracker. 
+This document outlines our approach to triaging issues in GitHub, including guidelines for labeling and resolving issues, and best practices for maintaining a well-organized, prioritized, and up-to-date issue tracker.
 
 !!! info
 
@@ -10,17 +10,17 @@ This document outlines our approach to triaging issues in GitHub, including guid
 ## Issue lifecycle
 
 1. A [new issue](https://github.com/earthaccess-dev/earthaccess/issues/new/choose) is created, either using a pre-existing template, or as a blank issue.
-2. The issue is triaged to initially assess the reported issue as a backlog candidate. 
-3. The issue is reviewed and prioritized by the `earthaccess` community manager using the `earthaccess` [GitHub Project](https://github.com/orgs/earthaccess-dev/projects/1). 
+2. The issue is triaged to initially assess the reported issue as a backlog candidate.
+3. The issue is reviewed and prioritized by the `earthaccess` community manager using the `earthaccess` [GitHub Project](https://github.com/orgs/earthaccess-dev/projects/1).
 4. The issue is worked following the [Pull Request (PR) Guide](./pr-guide.md).
 
-Details on each of these workflow steps are provided below. 
+Details on each of these workflow steps are provided below.
 
 ## Issue creation
 
-Issues are created using one of several templates or as a blank issue. See the issue template choices [here](https://github.com/earthaccess-dev/earthaccess/issues/new/choose). When an issue is first created, provide initial acknowledgement and gratitude for the submission as a text or emoji response. 
+Issues are created using one of several templates or as a blank issue. See the issue template choices [here](https://github.com/earthaccess-dev/earthaccess/issues/new/choose). When an issue is first created, provide initial acknowledgement and gratitude for the submission as a text or emoji response.
 
-By default, all new issues are created without a project status. Issues without a status are listed in the [Needs Triage](https://github.com/orgs/earthaccess-dev/projects/1/views/3) project view. 
+By default, all new issues are created without a project status. Issues without a status are listed in the [Needs Triage](https://github.com/orgs/earthaccess-dev/projects/1/views/3) project view.
 
 ## Issue triaging
 
@@ -40,7 +40,7 @@ When triaging a new issue, review the information and provide a response or foll
 - In Review
 - Done
 
-Select "Backlog". This will move the project out of the [Needs Triage](https://github.com/orgs/earthaccess-dev/projects/1/views/3) project view into its relevant backlog view depending on issue type. See below for more details on these other project views. 
+Select "Backlog". This will move the project out of the [Needs Triage](https://github.com/orgs/earthaccess-dev/projects/1/views/3) project view into its relevant backlog view depending on issue type. See below for more details on these other project views.
 
 ### When to "Close as not planned"?
 
@@ -58,12 +58,12 @@ When closing an issue as not planned:
 
 ### Labeling issues
 
-When labeling an issue, choose the [label(s)](https://github.com/earthaccess-dev/earthaccess/labels) that best describes the issue. Using labels consistently and accurately ensures that issues are trackable and searchable. 
+When labeling an issue, choose the [label(s)](https://github.com/earthaccess-dev/earthaccess/labels) that best describes the issue. Using labels consistently and accurately ensures that issues are trackable and searchable.
 
-Labels are mainly categorized by the prefix `type:`, `impact:`, or `needs:`. 
-Impact labels describe what portion of the project they affect. Impact labels are also used to help group related issues based on a particular feature or topic. For example, **impact: virtual-datasets** is used to categorize Issues or Discussions related to virtualizarr integration and support. These labels may evolve over time as new features are worked. 
+Labels are mainly categorized by the prefix `type:`, `impact:`, or `needs:`.
+Impact labels describe what portion of the project they affect. Impact labels are also used to help group related issues based on a particular feature or topic. For example, **impact: virtual-datasets** is used to categorize Issues or Discussions related to virtualizarr integration and support. These labels may evolve over time as new features are worked.
 
-Refer to the [Labels](https://github.com/earthaccess-dev/earthaccess/labels) page for details on label types and descriptions. 
+Refer to the [Labels](https://github.com/earthaccess-dev/earthaccess/labels) page for details on label types and descriptions.
 
 #### Linking labels in GitHub Markdown
 
@@ -87,13 +87,13 @@ Issues are groomed periodically to organize and prioritize the backlog. This iss
 - [Decisions](https://github.com/orgs/earthaccess-dev/projects/1/views/2): All issues with a `needs: decision` label. This is a "Board" type allowing us to see the status of all decisions.
 - [Roadmap](https://github.com/orgs/earthaccess-dev/projects/1/views/5): All issues linked and grouped by [Milestones](https://github.com/earthaccess-dev/earthaccess/milestones).
 
-If you're interested in contributing but aren't sure what needs attention, head to the [Bug Priority](https://github.com/orgs/earthaccess-dev/projects/1/views/4) and [Docs](https://github.com/orgs/earthaccess-dev/projects/1/views/6) project views to identify high-priority issues to address. 
+If you're interested in contributing but aren't sure what needs attention, head to the [Bug Priority](https://github.com/orgs/earthaccess-dev/projects/1/views/4) and [Docs](https://github.com/orgs/earthaccess-dev/projects/1/views/6) project views to identify high-priority issues to address.
 
 For triagers, select a priority based on the user impact and urgency. The following guidelines apply broadly across issue types, with additional notes for bugs and documentation issues.
 
 ### Priority: `1 - Critical`
 
-The issue has significant, immediate impact on users and/or major components of the `earthaccess` library. 
+The issue has significant, immediate impact on users and/or major components of the `earthaccess` library.
 
 - Core functionality is broken or inaccessible for a meaningful number of users
 - Key workflows or use cases are blocked
@@ -115,7 +115,7 @@ The issue has real impact but is not immediately blocking a majority of users.
 
 *Documentation example:* A Tutorial or secondary documentation is broken or unclear; contributing docs with significant usability issues.
 
-### Priority: `3 - Nice to have` 
+### Priority: `3 - Nice to have`
 
 The issue is a real improvement but not urgent.
 
@@ -185,5 +185,3 @@ Migrate an issue to a discussion when:
 - The issue is a nebulous idea that needs to be workshopped before it can be implemented.
 - The issue is a general question or topic.
 - The issue is not specific or actionable.
-
-
