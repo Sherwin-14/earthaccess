@@ -1,4 +1,4 @@
-# Documentation for `Granules`
+# Documentation for `DataGranulesQuery`
 
 
 ### DataGranulesQuery is the class `earthaccess` uses to query CMR at the **granule** level.
