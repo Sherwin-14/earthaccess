@@ -47,10 +47,6 @@ We use the following callout types:
 
 Avoid `hint`; use `note` instead. `important` is an alias for `tip`, so use `tip`.
 
-## Docstrings
-
-We document code with [Google-style docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html). See the [development guide](../howto/development.md#documentation-style) for details.
-
 ## Naming
 
 See our [naming conventions](./naming-convention.md) for how we name files and directories.
@@ -60,6 +56,5 @@ See our [naming conventions](./naming-convention.md) for how we name files and d
 These are style guides we admire and draw from:
 
 - [Matplotlib's documentation style guide](https://matplotlib.org/devdocs/devel/style_guide.html)
-- [SciPy's developer documentation](https://docs.scipy.org/doc/scipy/dev/missing-bits.html)
 - [Diataxis](https://diataxis.fr/)
 - [GeoJupyter AGU 2025 workshop style guide](https://agu2025.workshops.geojupyter.org/for-instructors/style-guide/)

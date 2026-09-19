@@ -1,18 +1,18 @@
 # Code Style Guide
 
-This guide captures how we write Python code for earthaccess. It exists to make contributing easier and to keep our code readable and consistent.
+This guide captures how we write code for earthaccess. It exists to make contributing easier and to keep our code readable and consistent.
 
 ## Readability first
 
 Code is read far more often than it is written, so prioritize readability.
 
-Write code that follows the principle of least astonishment: a reader should be able to tell what a function or class does from its name and signature, and the code should behave as expected, without surprises.
+Write code that follows the [principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment): a reader should be able to tell what a function or class does from its name and signature, and the code should behave as expected, without surprises.
 
-Follow the single-responsibility principle: give each function, method, and class one clear job. If a function does several unrelated things, split it into smaller functions.
+Follow the [single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle): give each function, method, and class one clear job. If a function does several unrelated things, split it into smaller functions.
 
 ## Naming
 
-Names matter. Prefer clarity over succinctness — a long name that makes a purpose obvious is better than a short name that doesn't. See our [naming conventions](./naming-convention.md) for more.
+Names matter. Prefer clarity over succinctness. A long name that makes a purpose obvious is better than a short name that doesn't. See our [naming conventions](./naming-convention.md) for more.
 
 For booleans:
 
@@ -35,7 +35,7 @@ Document all public functions, classes, and methods with [Google-style docstring
 
 ## Architecture
 
-Prefer object-oriented interfaces for stateful things, and avoid singletons where possible.
+Aim for object-oriented interfaces for stateful things, and avoid introducing new singletons.
 
 ## YAML
 
