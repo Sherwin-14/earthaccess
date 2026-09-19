@@ -50,11 +50,3 @@ Avoid `hint`; use `note` instead. `important` is an alias for `tip`, so use `tip
 ## Naming
 
 See our [naming conventions](./naming-convention.md) for how we name files and directories.
-
-## Further reading
-
-These are style guides we admire and draw from:
-
-- [Matplotlib's documentation style guide](https://matplotlib.org/devdocs/devel/style_guide.html)
-- [Diataxis](https://diataxis.fr/)
-- [GeoJupyter AGU 2025 workshop style guide](https://agu2025.workshops.geojupyter.org/for-instructors/style-guide/)
