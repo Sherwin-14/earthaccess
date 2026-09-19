@@ -12,18 +12,24 @@ Use lots of subheadings. They make pages scannable and easier to navigate, and t
 
 ## Write with an audience in mind
 
-We use the [Diataxis](https://diataxis.fr/) framework to decide what a page is for: a tutorial, a how-to guide, a reference, or an explanation. When writing a tutorial, keep the [key principles of tutorials](https://diataxis.fr/tutorials/#key-principles) in mind — such as letting the learner work and staying focused on the goal.
+We use the [Diataxis](https://diataxis.fr/) framework to decide what a page is for. It distinguishes four kinds of documentation:
+
+- **Tutorials** teach by walking the learner through a task.
+- **How-to guides** give step-by-step instructions to solve a specific problem.
+- **Reference** describes technical details for readers who already know what they're looking for.
+- **Explanations** provide background and context to deepen understanding.
+
+When writing a tutorial, keep the [key principles of tutorials](https://diataxis.fr/tutorials/#key-principles) in mind — such as letting the learner work and staying focused on the goal.
 
 ## Headings
 
-Use sentence case for headings — capitalize only the first word and proper nouns (e.g. "NASA", "ReadTheDocs"). Do not use Title Case.
+Use sentence case for headings and capitalize only the first word and proper nouns (e.g. "NASA", "ReadTheDocs"). Do not use Title Case.
 
 Prefer noun phrases for headings that describe content, and verb phrases for headings that walk the reader through steps.
 
 ## Lists
 
-- Use bulleted lists for items that don't need a particular order.
-- Use numbered lists only for steps that must be performed in order.
+Use bulleted lists for items that don't need a particular order, and numbered lists only for steps that must be performed in order.
 
 ## Callouts
 
