@@ -1,6 +1,6 @@
 # Code Style Guide
 
-This guide captures how we write code for earthaccess. It exists to make contributing easier and to keep our code readable and consistent.
+This guide captures how we aspire to write code for earthaccess. It exists to make contributing easier and to keep our code readable and consistent.
 
 ## Readability first
 
