@@ -1,18 +1,18 @@
 # Documentation Style Guide
 
-This guide captures how we write documentation for earthaccess. It exists to make contributing easier and to keep our docs consistent. When in doubt, follow the examples in our existing pages.
+This guide captures how we aspire to write documentation for earthaccess. The goal is to make contributing easier and to keep our docs consistent. When in doubt, follow the examples in our existing pages or let someone know you'd like some help.
 
 ## Keep it short
 
-Prefer short pages, short sentences, and short paragraphs. A long page is often a sign that it should be split into smaller pages.
+We prefer short pages, short sentences, and short paragraphs. A long page is often a sign that the content could be split into smaller pages.
 
 ## Use plenty of structure
 
-Use lots of subheadings. They make pages scannable and easier to navigate, and they help readers skip straight to what they need.
+Make use of subheadings. They make pages scannable and easier to navigate, and they help readers skip straight to what they need.
 
 ## Write with an audience in mind
 
-We use the [Diataxis](https://diataxis.fr/) framework to decide what a page is for. It distinguishes four kinds of documentation:
+We use the [Diataxis](https://diataxis.fr/) framework to decide what a page is for and where it should go. The framework distinguishes four kinds of documentation:
 
 - **Tutorials** teach by walking the learner through a task.
 - **How-to guides** give step-by-step instructions to solve a specific problem.
@@ -25,7 +25,7 @@ When writing a tutorial, keep the [key principles of tutorials](https://diataxis
 
 Use sentence case for headings and capitalize only the first word and proper nouns (e.g. "NASA", "ReadTheDocs"). Do not use Title Case.
 
-Prefer noun phrases for headings that describe content, and verb phrases for headings that walk the reader through steps.
+We prefer noun phrases for headings that describe content, and verb phrases for headings that walk the reader through steps.
 
 ## Lists
 
@@ -35,7 +35,7 @@ Use bulleted lists for items that don't need a particular order, and numbered li
 
 Callouts (admonitions) draw attention to important information, but use them in moderation. Too many make a page noisy; too few let important information blend into the surrounding prose.
 
-- Prefer callouts over emphasis (bold or italics). If you find yourself emphasizing text, consider whether a callout would serve better.
+- We prefer callouts over text emphasis (bold or italics). If you find yourself emphasizing text, consider whether a callout would serve better.
 - Use collapsed callouts (`??? note`) for content that isn't critical to the main flow. If a lot of content seems to belong in a collapsed callout, consider whether it belongs in an explanation page instead.
 
 We use the following callout types:

@@ -12,7 +12,7 @@ Follow the [single-responsibility principle](https://en.wikipedia.org/wiki/Singl
 
 ## Naming
 
-Names matter. Prefer clarity over succinctness. A long name that makes a purpose obvious is better than a short name that doesn't. See our [naming conventions](./naming-convention.md) for more.
+Names matter. We prefer clarity over succinctness. A long name that makes a purpose obvious is better than a short name that doesn't. See our [naming conventions](./naming-convention.md) for more information.
 
 For booleans:
 
