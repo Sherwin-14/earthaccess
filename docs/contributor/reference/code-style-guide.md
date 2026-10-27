@@ -18,7 +18,16 @@ For booleans:
 
 - Use verb-prefixed names, such as `is_cloud_hosted`, `has_granules`, or `can_download`.
 - Use positive names (`is_enabled`, not `is_disabled`).
-- Represent a single piece of state with a single boolean, rather than one boolean that bundles several meanings together.
+- Represent a single piece of state with a single boolean, rather than one boolean that bundles several meanings together:
+
+    ```python
+    # Bad: `found` is False both when nothing matched and when the search failed
+    if not found: ...
+
+    # Good: split the two states into separate booleans
+    found = ...
+    failed = ...
+    ```
 
 ## Function signatures
 
