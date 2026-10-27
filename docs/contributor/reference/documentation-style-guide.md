@@ -43,6 +43,13 @@ Use plain text when the same word is ordinary English rather than a code referen
 
 Callouts (admonitions) draw attention to important information, but use them in moderation. Too many make a page noisy; too few let important information blend into the surrounding prose.
 
+A callout is written as a `!!!` block:
+
+```markdown
+!!! note
+    Information worth highlighting.
+```
+
 - We prefer callouts over text emphasis (bold or italics). If you find yourself emphasizing text, consider whether a callout would serve better.
 - Use collapsed callouts (`??? note`) for content that isn't critical to the main flow. If a lot of content seems to belong in a collapsed callout, consider whether it belongs in an explanation page instead.
 
