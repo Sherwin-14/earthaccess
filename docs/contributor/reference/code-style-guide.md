@@ -31,7 +31,7 @@ def download(granules, *, local_path=None, threads=8):
 
 ## Docstrings
 
-Document all public functions, classes, and methods with [Google-style docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html). See the [development guide](../howto/development.md#documentation-style) for details.
+Document all public functions, classes, and methods with [Google-style docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html). Document every parameter, including keyword arguments. Note the default value only when its behavior isn't obvious from the signature.
 
 ## Architecture
 
