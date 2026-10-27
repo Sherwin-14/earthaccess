@@ -33,6 +33,12 @@ We prefer noun phrases for headings that describe content, and verb phrases for 
 
 Use bulleted lists for items that don't need a particular order, and numbered lists only for steps that must be performed in order.
 
+## References to code
+
+Use inline code (backticks) when referring to code — package names, functions, methods, classes, parameters, variables, and filenames. For example, "the `earthaccess` package" and "search with `search_data()`".
+
+Use plain text when the same word is ordinary English rather than a code reference — for example, "download the data" (the verb) rather than "`download` the data".
+
 ## Callouts
 
 Callouts (admonitions) draw attention to important information, but use them in moderation. Too many make a page noisy; too few let important information blend into the surrounding prose.
